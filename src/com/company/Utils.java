@@ -1,7 +1,11 @@
 package com.company;
 
+import jdk.nashorn.internal.scripts.JO;
+
 import javax.swing.*;
+import java.sql.Time;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 public class Utils {
@@ -58,5 +62,19 @@ public class Utils {
 
     public int getStatusAteatimento(){
         return Integer.parseInt(JOptionPane.showInputDialog("Informe a condicção do atendimento:\n[1]atendido\n[2]Em analise\n [3]Recusado."));
+
     }
+    //utilitarios Solicitacao
+
+    public Time getHora(){
+        return Time.valueOf(new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime()));
+
+    }
+
+
+
+    public String getDescricaoSolicitacao(){
+        return JOptionPane.showInputDialog("INforme a descrição de sua solicitação!!");
+    }
+
 }

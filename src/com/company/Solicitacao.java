@@ -1,7 +1,9 @@
 package com.company;
 
 import java.sql.Time;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 public class Solicitacao {
@@ -42,4 +44,6 @@ public class Solicitacao {
     public void setSolitacao(String solitacao) {
         this.solitacao = solitacao;
     }
+
+
 }
