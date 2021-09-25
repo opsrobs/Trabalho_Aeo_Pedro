@@ -15,8 +15,8 @@ import java.util.Random;
 public class Utils {
     ArrayList<Usuario> usuarios = new ArrayList<>();
 
-    public void addUsuarios(String nome, Date data, String email, String fone){
-        this.usuarios.add(new Usuario(nome,data,email,fone));
+    public void addUsuarios(String nome, Date data, String email, String fone,ArrayList<Atendimento> atendimentos){
+        this.usuarios.add(new Usuario(nome,data,email,fone, atendimentos));
     }
     public String random(String[] randomize){
         Random random = new Random();
@@ -47,6 +47,11 @@ public class Utils {
     public Date converterData(String d){
         SimpleDateFormat dataFormatada = new SimpleDateFormat("dd/MM/yyyy");
         Date data = new Date();
+
+//        DateTimeFormatter dtf5 = DateTimeFormatter.ofPattern("yyyy/MM/dd hh:mm");
+//        System.out.println("yyyy/MM/dd hh:mm:ss-> "+dtf5.format(LocalDateTime.now()));
+
+
         boolean dataValida;
         do{
 
@@ -134,9 +139,10 @@ public class Utils {
     public String dadosUsuario(){
         String dados="";
         for (int i = 0; i < this.usuarios.size(); i++) {
-            int cont=usuarios.get(i).qtd(i);
+            for (int j = 0; j < this.usuarios.get(i).getAtendimentos().size(); j++) {
+                dados+=this.usuarios.get(i).toString()+" "+this.usuarios.get(i).getAtendimentos().size();
 
-            dados+=usuarios.toString()+" " +this.msgQtd(cont);
+            }
 
         }
         return dados;

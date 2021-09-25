@@ -49,8 +49,8 @@ public class Solicitacao {
     @Override
     public String toString() {
         return "Solicitacao: " +
-                "\nData: " + date +
-                "\nHora: " + hora +
-                "\nSolitacao='" + solitacao;
+                "\n\tData: " + date +
+                "\n\tHora: " + hora +
+                "\n\tSolitacao: " + solitacao;
     }
 }

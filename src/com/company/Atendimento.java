@@ -4,33 +4,17 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class Atendimento {
-    private Usuario usuario;
     private Date dataDeAtentimento;
-    private Solicitacao solicitacao;
     private String status;
+    private Solicitacao solicitacao;
 
-    public Atendimento(Usuario usuario, Date dataDeAtentimento, Solicitacao solicitacao, String status) {
-        this.usuario = usuario;
+    public Atendimento(Date dataDeAtentimento, String status, Solicitacao solicitacao) {
+
         this.dataDeAtentimento = dataDeAtentimento;
-        this.solicitacao = solicitacao;
         this.status = status;
-    }
-
-    public Solicitacao getSolicitacao() {
-        return solicitacao;
-    }
-
-    public void setSolicitacao(Solicitacao solicitacao) {
         this.solicitacao = solicitacao;
     }
 
-    public Usuario getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
-    }
 
     public Date getDataDeAtentimento() {
         return dataDeAtentimento;
@@ -48,12 +32,18 @@ public class Atendimento {
         this.status = status;
     }
 
-    @Override
+    public Solicitacao getSolicitacao() {
+        return solicitacao;
+    }
+
+    public void setSolicitacao(Solicitacao solicitacao) {
+        this.solicitacao = solicitacao;
+    }
+        @Override
     public String toString() {
         return "Atendimento: " +
-                "\nUsuario: " + usuario +
-                "\nData de atentimento: " + dataDeAtentimento +
-                "\nSolicitacao: " + solicitacao +
-                "\nStatus: " + status;
+                "\n\tData de atentimento: " + dataDeAtentimento +
+                "\n\tSolicitacao: " + solicitacao +
+                "\n\tStatus: " + status;
     }
 }

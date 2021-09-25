@@ -26,18 +26,18 @@ public class Main {
         date=utils.converterData(utils.random(aleatorio.datasDeInclusao()));
         email=utils.random(aleatorio.email());
         fone=utils.random(aleatorio.telefone());
-        utils.addUsuarios(nome,date,email,fone);
-
+        usuario=new Usuario(nome,date,email,fone);
         descSolicitacao=utils.random(aleatorio.descricao());
         while (!descSolicitacao.equalsIgnoreCase("fim")){
-            usuario=new Usuario(nome,date,email,fone);
             date=utils.converterData(utils.random(aleatorio.datasDeInclusao()));
             solicitacao = new Solicitacao(date,utils.converterHora(),descSolicitacao);
             hora=utils.converterHora();
             st=utils.condicaoAtentimento(utils.randomN(aleatorio.status()));
             date=utils.converterData(utils.random(aleatorio.datasDeAtendimento()));
-            atendimento = new Atendimento(usuario,date,solicitacao ,st);
-            usuario.adicinorSolicitacao(date,hora,descSolicitacao);
+            atendimento = new Atendimento(date,st,solicitacao);
+            usuario.adicinorAtendimentos(atendimento);
+            utils.addUsuarios(nome,date,email,fone,usuario.getAtendimentos());
+
 
             descSolicitacao=utils.random(aleatorio.descricao());
 
@@ -46,6 +46,6 @@ public class Main {
 
     }
         System.out.println(utils.dadosUsuario());
-        System.out.println(solicitacao.toString());
+//        System.out.println(solicitacao.toString());
     }
 }

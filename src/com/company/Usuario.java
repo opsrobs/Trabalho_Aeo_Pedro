@@ -8,10 +8,21 @@ public class Usuario {
     private Date data;
     private String email;
     private String fone;
-    ArrayList<Solicitacao> solicitacoes = new ArrayList<>();
+    private ArrayList<Atendimento> atendimentos = new ArrayList<>();
 
-    public void adicinorSolicitacao(Date date, String hora, String solitacao){
-        this.solicitacoes.add(new Solicitacao(date,hora,solitacao));
+    public Usuario(String nome, Date data, String email, String fone, ArrayList<Atendimento> atendimentos) {
+        this.nome = nome;
+        this.data = data;
+        this.email = email;
+        this.fone = fone;
+        this.atendimentos = atendimentos;
+    }
+    public Usuario() {
+
+    }
+
+    public void adicinorAtendimentos(Atendimento atendimento){
+        this.atendimentos.add(atendimento);
     }
 
     public String getNome() {
@@ -46,19 +57,13 @@ public class Usuario {
         this.fone = fone;
     }
 
-    public int qtd (int index){
-        int qtds=0;
-        for ( index = 0; index < solicitacoes.size(); index++) {
-         qtds++;
-        }
-        return qtds;
+    public ArrayList<Atendimento> getAtendimentos() {
+        return atendimentos;
     }
 
-    public ArrayList<Solicitacao> getSolicitacoes() {
-        return solicitacoes;
+    public void setAtendimentos(ArrayList<Atendimento> atendimentos) {
+        this.atendimentos = atendimentos;
     }
-
-
 
     public Usuario(String nome, Date data, String email, String fone) {
 
@@ -74,6 +79,6 @@ public class Usuario {
                 "\nData: " + data +
                 "\nEmail: " + email +
                 "\nFone: " + fone +
-                "\nSolicitacoes: " + solicitacoes.toString()+" ";
+                "\nAtendimentos: " + atendimentos;
     }
 }
