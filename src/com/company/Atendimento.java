@@ -47,4 +47,13 @@ public class Atendimento {
     public void setStatus(String status) {
         this.status = status;
     }
+
+    @Override
+    public String toString() {
+        return "Atendimento: " +
+                "\nUsuario: " + usuario +
+                "\nData de atentimento: " + dataDeAtentimento +
+                "\nSolicitacao: " + solicitacao +
+                "\nStatus: " + status;
+    }
 }

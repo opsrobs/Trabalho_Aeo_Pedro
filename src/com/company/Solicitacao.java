@@ -2,16 +2,17 @@ package com.company;
 
 import java.sql.Time;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
 public class Solicitacao {
     private Date date;
-    private Time hora;
+    private String hora;
     private String solitacao;
 
-    public Solicitacao(Date date, Time hora, String solitacao) {
+    public Solicitacao(Date date, String hora, String solitacao) {
         this.date = date;
         this.hora = hora;
         this.solitacao = solitacao;
@@ -29,11 +30,11 @@ public class Solicitacao {
         this.date = date;
     }
 
-    public Date getHora() {
+    public String getHora() {
         return hora;
     }
 
-    public void setHora(Time hora) {
+    public void setHora(String hora) {
         this.hora = hora;
     }
 
@@ -45,5 +46,11 @@ public class Solicitacao {
         this.solitacao = solitacao;
     }
 
-
+    @Override
+    public String toString() {
+        return "Solicitacao: " +
+                "\nData: " + date +
+                "\nHora: " + hora +
+                "\nSolitacao='" + solitacao;
+    }
 }
