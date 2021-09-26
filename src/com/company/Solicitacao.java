@@ -48,9 +48,9 @@ public class Solicitacao {
 
     @Override
     public String toString() {
-        return "Solicitacao: " +
-                "\n\tData: " + date +
-                "\n\tHora: " + hora +
-                "\n\tSolitacao: " + solitacao;
+        return
+                "\n\t\tData: " + date +
+                "\n\t\tHora: " + hora +
+                "\n\t\tSolitacao: " + solitacao;
     }
 }

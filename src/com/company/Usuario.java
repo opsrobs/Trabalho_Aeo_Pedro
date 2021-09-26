@@ -75,10 +75,10 @@ public class Usuario {
 
     @Override
     public String toString() {
-        return "\nUsuario: " +nome +
+        return "\n----------------------" +
+                "\nUsuario: " +nome +
                 "\nData: " + data +
                 "\nEmail: " + email +
-                "\nFone: " + fone +
-                "\nAtendimentos: " + atendimentos;
+                "\nFone: " + fone;
     }
 }

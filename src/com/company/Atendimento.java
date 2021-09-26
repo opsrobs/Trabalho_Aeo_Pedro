@@ -1,6 +1,5 @@
 package com.company;
 
-import java.util.ArrayList;
 import java.util.Date;
 
 public class Atendimento {
@@ -41,9 +40,9 @@ public class Atendimento {
     }
         @Override
     public String toString() {
-        return "Atendimento: " +
+        return "\n\n\tAtendimento: " +
                 "\n\tData de atentimento: " + dataDeAtentimento +
                 "\n\tSolicitacao: " + solicitacao +
-                "\n\tStatus: " + status;
+                "\n\t\tStatus: " + status;
     }
 }
