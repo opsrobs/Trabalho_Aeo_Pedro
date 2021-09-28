@@ -2,10 +2,7 @@ package com.company;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
-import javax.swing.text.DateFormatter;
 import java.text.SimpleDateFormat;
-import java.time.Duration;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -154,9 +151,9 @@ public class Utils {
 
     public float qtdAtendimentos(){
         float qtd=0;
-        for (int i = 0; i < this.usuarios.size(); i++) {
-            for (int j = 0; j < this.usuarios.get(i).getAtendimentos().size(); j++) {
-                qtd+=this.usuarios.get(i).getAtendimentos().size();
+        for (Usuario usuario : this.usuarios) {
+            for (Atendimento atendimento: usuario.getAtendimentos()) {
+                qtd += usuario.getAtendimentos().size();
             }
         }
         return qtd;
@@ -164,12 +161,12 @@ public class Utils {
 
     public String dadosUsuario(){
         StringBuilder dados= new StringBuilder();
-        for (int i = 0; i < this.usuarios.size(); i++) {
-            int tam=0;
-            for (int j = 0; j < this.usuarios.get(i).getAtendimentos().size(); j++) {
-                tam=this.usuarios.get(i).getAtendimentos().size();
+        for (Usuario usuario : this.usuarios) {
+            int tam = 0;
+            for (Atendimento atendimento: usuario.getAtendimentos()) {
+                tam = usuario.getAtendimentos().size();
             }
-            dados.append(this.usuarios.get(i).toString()).append(" ").append(tam).append(this.msgQtd(tam)).append("\n");
+            dados.append(usuario).append(" ").append(tam).append(this.msgQtd(tam)).append("\n");
         }
         return dados.toString();
     }
@@ -186,41 +183,42 @@ public class Utils {
 
 //    Um relatório com as solicitação do suporte e quantos dias demorou para efetuar o atendimento;
 
-    public long dataSolicitacao(){
-        long dataSolicitacao=0;
-        for ( int i = 0; i < this.usuarios.size(); i++) {
-            for (int j = 0; j < this.usuarios.get(i).getAtendimentos().size(); j++) {
-                dataSolicitacao=convert(this.usuarios.get(i).getAtendimentos().get(j).getSolicitacao().getDate());
+    public Date dataSolicitacao(){
+        Date dataSolicitacao=new Date();
+        for (Usuario usuario : this.usuarios) {
+            for (int j = 0; j < usuario.getAtendimentos().size(); j++) {
+                dataSolicitacao = usuario.getAtendimentos().get(j).getSolicitacao().getDate();
             }
         }
         return dataSolicitacao;
     }
-    public long dataAtendimento(int x){
-        long dataAtendimento=0;
-        for ( int i = 0; i < this.usuarios.size(); i++) {
-            for (int j = 0; j < this.usuarios.get(i).getAtendimentos().size(); j++) {
-//                dataAtendimento=this.usuarios.get(i).getAtendimentos().get(x).getDataDeAtentimento();
-                dataAtendimento=TimeUnit.DAYS.convert(this.usuarios.get(i).getAtendimentos().get(x).
-                        getDataDeAtentimento().getTime(),TimeUnit.MILLISECONDS);
+    public Date dataAtendimento(){
+        Date dataAtendimento=new Date();
+        for (Usuario usuario : this.usuarios) {
+            for (int j = 0; j < usuario.getAtendimentos().size(); j++) {
+                dataAtendimento = usuario.getAtendimentos().get(j).
+                        getDataDeAtentimento();
             }
         }
         return dataAtendimento;
     }
 
     public String relatorioDemoraAtendimento(){
-        String relatorio="";
+        StringBuilder relatorio= new StringBuilder();
         Date dataSolicitacao, dataAtendimento;
         long dia;
-        for (int i = 0; i < this.usuarios.size(); i++) {
-            for (int j = 0; j < this.usuarios.get(i).getAtendimentos().size(); j++) {
-                dataSolicitacao=this.usuarios.get(i).getAtendimentos().get(j).getSolicitacao().getDate();
-                dataAtendimento=this.usuarios.get(i).getAtendimentos().get(j).getDataDeAtentimento();
-                dia=convert(dataAtendimento)-convert(dataSolicitacao);
-                relatorio+=this.usuarios.get(i).getAtendimentos().get(j).getSolicitacao()+" "+dia+" Dias";
+        for (Usuario usuario : this.usuarios) {
+            for (int j = 0; j < usuario.getAtendimentos().size(); j++) {
+                dataSolicitacao = usuario.getAtendimentos().get(j).getSolicitacao().getDate();
+                dataAtendimento = usuario.getAtendimentos().get(j).getDataDeAtentimento();
+                dia = convert(dataAtendimento) - convert(dataSolicitacao);
+                relatorio.append(usuario.getAtendimentos().get(j).getSolicitacao()).append(" ").append(dia).append(" Dias");
             }
         }
-        return relatorio;
+        return relatorio.toString();
     }
+
+
 
     public long convert(@NotNull Date data){
         return TimeUnit.DAYS.convert((data.getTime()),TimeUnit.MILLISECONDS);
@@ -233,12 +231,12 @@ public class Utils {
     public String relatorioTempoAtendimento(){
         StringBuilder relatorio= new StringBuilder();
         Date dataSolicitacao, dataAtendimento;
-        for (int i = 0; i < this.usuarios.size(); i++) {
-            for (int j = 0; j < this.usuarios.get(i).getAtendimentos().size(); j++) {
-                dataSolicitacao=this.usuarios.get(i).getAtendimentos().get(j).getSolicitacao().getDate();
-                dataAtendimento=this.usuarios.get(i).getAtendimentos().get(j).getDataDeAtentimento();
-                if (tempo(convert(dataAtendimento), convert(dataSolicitacao))==true){
-                    relatorio.append(this.usuarios.get(i).getAtendimentos().get(j).getSolicitacao().toString());
+        for (Usuario usuario : this.usuarios) {
+            for (int j = 0; j < usuario.getAtendimentos().size(); j++) {
+                dataSolicitacao = usuario.getAtendimentos().get(j).getSolicitacao().getDate();
+                dataAtendimento = usuario.getAtendimentos().get(j).getDataDeAtentimento();
+                if (tempo(convert(dataAtendimento), convert(dataSolicitacao))) {
+                    relatorio.append(usuario.getAtendimentos().get(j).getSolicitacao().toString());
                 }
             }
         }
@@ -247,9 +245,9 @@ public class Utils {
 
     public float totalDias(){
         long dia=0;
-        for (int i = 0; i < this.usuarios.size(); i++) {
-            for (int j = 0; j < this.usuarios.get(i).getAtendimentos().size(); j++) {
-               dia+=convert(this.usuarios.get(i).getAtendimentos().get(j).getDataDeAtentimento());
+        for (Usuario usuario : this.usuarios) {
+            for (int j = 0; j < usuario.getAtendimentos().size(); j++) {
+                dia += convert(usuario.getAtendimentos().get(j).getDataDeAtentimento());
             }
         }
         return Float.parseFloat(String.valueOf(dia));
@@ -257,9 +255,9 @@ public class Utils {
 
     public float diasSolicitacao(){
         long dia=0;
-        for (int i = 0; i < this.usuarios.size(); i++) {
-            for (int j = 0; j < this.usuarios.get(i).getAtendimentos().size(); j++) {
-                dia+=convert(this.usuarios.get(i).getAtendimentos().get(j).getSolicitacao().getDate());
+        for (Usuario usuario : this.usuarios) {
+            for (int j = 0; j < usuario.getAtendimentos().size(); j++) {
+                dia += convert(usuario.getAtendimentos().get(j).getSolicitacao().getDate());
             }
         }
         return Float.parseFloat(String.valueOf(dia));
@@ -274,20 +272,20 @@ public class Utils {
     }
     public int maiorEmail(){
         int email=15;
-        for (int i = 0; i < this.usuarios.size(); i++) {
-            if (this.usuarios.get(i).getEmail().length()>email){
-                email=this.usuarios.get(i).getEmail().length();
+        for (Usuario usuario : this.usuarios) {
+            if (usuario.getEmail().length() > email) {
+                email = usuario.getEmail().length();
             }
         }
         return email;
     }
 
     public String separador(){
-        String sep="==============";
+        StringBuilder sep= new StringBuilder("###############");
         for (int i = 0; i <= this.maiorEmail(); i++) {
-            sep+="=";
+            sep.append("#");
         }
-     return sep;
+     return sep.toString();
     }
 
     public void menu(int op){
