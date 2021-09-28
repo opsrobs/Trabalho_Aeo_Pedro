@@ -21,8 +21,10 @@ public class Usuario {
 
     }
 
-    public void adicinorAtendimentos(Atendimento atendimento){
-        this.atendimentos.add(atendimento);
+    public void adicinorAtendimentos(Atendimento atendimento, int tamLista){
+        if(atendimentos.size()<= tamLista) {
+            this.atendimentos.add(atendimento);
+        }
     }
 
     public String getNome() {

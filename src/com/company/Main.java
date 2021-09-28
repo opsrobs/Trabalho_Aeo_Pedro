@@ -35,15 +35,14 @@ public class Main {
                 st=utils.condicaoAtentimento(utils.randomN(aleatorio.status()));
                 date=utils.converterData(utils.random(aleatorio.datasDeAtendimento()));
                 atendimento = new Atendimento(date,st,solicitacao);
-                usuario.adicinorAtendimentos(atendimento);
+                usuario.adicinorAtendimentos(atendimento,2);
 
-                descSolicitacao=utils.limiteLista(2);
+                descSolicitacao=utils.random(aleatorio.descricao());
             }
             utils.addUsuarios(nome,date,email,fone,usuario.getAtendimentos());
-            nome=utils.limiteLista(3);
+            nome=utils.limiteLista(2);
         }
-        utils.menu(utils.apresentarMenu());
-        System.out.println(utils.maiorEmail());
+        utils.apresentarMenu();
 
     }
 }

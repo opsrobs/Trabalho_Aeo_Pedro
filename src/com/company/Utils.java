@@ -35,39 +35,13 @@ public class Utils {
     public int tamanhoUuarios(){
         return usuarios.size();
     }
-    public int tamanhoAtendimentos(){
-        int atendimentos=0;
-        for (Usuario usuario : this.usuarios) {
-            atendimentos = usuario.getAtendimentos().size();
-        }
-        return atendimentos;
-    }
 
-    public String limiteLista(int tam){
-        String nome;
-        if (this.tamanhoUuarios()==tam || this.tamanhoAtendimentos()==tam){
-            nome="fim";
+    public String limiteLista(int tamUser){
+        if (this.tamanhoUuarios()==tamUser ){
+            return "fim";
         }else
-            nome=this.random(randons.nomes());
-        return nome;
+            return this.random(randons.nomes());
     }
-
-    public String getNome(){
-        return JOptionPane.showInputDialog("Informe o nome do usuario");
-    }
-    public String getData(){
-        return JOptionPane.showInputDialog("Informe a data [DD/MM/AAAA]: ");
-    }
-    public String getEmail(){
-        return JOptionPane.showInputDialog("Informe o email!");
-    }
-    public String getTelefone(){
-        return JOptionPane.showInputDialog("Informe o telefone[xx-xxxxx-xxxx]");
-    }
-
-
-
-
     public Date converterData(String d){
         SimpleDateFormat dataFormatada = new SimpleDateFormat("dd/MM/yyyy");
         Date data = new Date();
@@ -106,9 +80,7 @@ public class Utils {
     //utilitarios atendimento
 
     public String condicaoAtentimento(int condicao){
-
         String status="";
-        do{
             switch (condicao){
                 case 1: status="Atendido";
                 break;
@@ -117,21 +89,9 @@ public class Utils {
                 case 3: status="Recusado";
                 break;
             }
-        }while (condicao>3);
             return status;
-
     }
 
-    //utilitarios Solicitacao
-
-    public Date getHoraLocal(){
-        return Calendar.getInstance().getTime();
-
-    }
-
-    public String getDescricaoSolicitacao(){
-        return JOptionPane.showInputDialog("INforme a descrição de sua solicitação!!");
-    }
 //    Um relatório de todos os usuários contendo todos os seus dados mais a quantidade de solicitações;
     public String msgQtd(int qtd){
         if (qtd <= 0){
@@ -160,7 +120,7 @@ public class Utils {
             for (Atendimento atendimento: usuario.getAtendimentos()) {
                 tam = usuario.getAtendimentos().size();
             }
-            dados.append(usuario).append(" ").append(tam).append(this.msgQtd(tam)).append("\n");
+            dados.append(usuario).append(" ").append(tam).append(this.msgQtd(tam)).append("\n").append(this.separador()).append(this.separador());
         }
         return dados.toString();
     }
@@ -170,32 +130,13 @@ public class Utils {
     public String usuario(){
         StringBuilder relatorio= new StringBuilder();
         for (Usuario u : usuarios){
-            relatorio.append(u.toString()).append(u.getAtendimentos());
+            relatorio.append(u.toString()).append(u.getAtendimentos()).append(this.separador());
         }
         return relatorio.toString();
     }
 
 //    Um relatório com as solicitação do suporte e quantos dias demorou para efetuar o atendimento;
 
-    public Date dataSolicitacao(){
-        Date dataSolicitacao=new Date();
-        for (Usuario usuario : this.usuarios) {
-            for (int j = 0; j < usuario.getAtendimentos().size(); j++) {
-                dataSolicitacao = usuario.getAtendimentos().get(j).getSolicitacao().getDate();
-            }
-        }
-        return dataSolicitacao;
-    }
-    public Date dataAtendimento(){
-        Date dataAtendimento=new Date();
-        for (Usuario usuario : this.usuarios) {
-            for (int j = 0; j < usuario.getAtendimentos().size(); j++) {
-                dataAtendimento = usuario.getAtendimentos().get(j).
-                        getDataDeAtentimento();
-            }
-        }
-        return dataAtendimento;
-    }
 
     public String relatorioDemoraAtendimento(){
         StringBuilder relatorio= new StringBuilder();
@@ -211,8 +152,6 @@ public class Utils {
         }
         return relatorio.toString();
     }
-
-
 
     public long convert(@NotNull Date data){
         return TimeUnit.DAYS.convert((data.getTime()),TimeUnit.MILLISECONDS);
@@ -230,7 +169,7 @@ public class Utils {
                 dataSolicitacao = usuario.getAtendimentos().get(j).getSolicitacao().getDate();
                 dataAtendimento = usuario.getAtendimentos().get(j).getDataDeAtentimento();
                 if (tempo(convert(dataAtendimento), convert(dataSolicitacao))) {
-                    relatorio.append(usuario.getAtendimentos().get(j).getSolicitacao().toString());
+                    relatorio.append(usuario.getAtendimentos().get(j).getSolicitacao().toString()).append(this.separador());
                 }
             }
         }
@@ -264,63 +203,58 @@ public class Utils {
     public double mediaDiaAtendimento(){
         return this.diasParaAtendimento()/ this.qtdAtendimentos();
     }
-    public int maiorEmail(){
-        int email=15;
+    public int maiorSolicitacao(){
+        int solicitacao=15;
         for (Usuario usuario : usuarios) {
-            if (usuario.getEmail().length() > email) {
-                email = usuario.getEmail().length();
+            for (Atendimento atendimento: usuario.getAtendimentos()) {
+                if (atendimento.getSolicitacao().getSolitacao().length() > solicitacao) {
+                    solicitacao = atendimento.getSolicitacao().getSolitacao().length();
+                }
             }
         }
-        return email;
+        return solicitacao;
     }
 
     public String separador(){
-        StringBuilder sep= new StringBuilder("###############");
-        for (int i = 0; i <= this.maiorEmail(); i++) {
+        StringBuilder sep= new StringBuilder("\n#");
+        for (int i = 0; i <= this.maiorSolicitacao(); i++) {
             sep.append("#");
         }
      return sep.toString();
     }
     //menu
 
-    public int apresentarMenu(){
+    public void apresentarMenu(){
         if (this.tamanhoUuarios()<1){
             JOptionPane.showMessageDialog(null,"Não há informações a serem apresentadas. Tente novamente!!\n" +
                     "(ESTE PROGRAMA GERA DADOS AUTOMATICAMENTE)");
-            return 6;
         }else
-            return this.opcaoMenu();
+             this.menu(this.opcaoMenu());
 
     }
     public int opcaoMenu(){
-        return Integer.parseInt(JOptionPane.showInputDialog(this.separador() +"\n"+
+        return Integer.parseInt(JOptionPane.showInputDialog(separador() +"\n"+
                 "1.Um relatório de todos os usuários contendo todos os seus dados mais a quantidade de solicitações;\n" +
                 "2.Um relatório de todos os usuários com seus respectivos atendimentos;\n" +
                 "3.Um relatório com as solicitação do suporte e quantos dias demorou para efetuar o atendimento;\n" +
                 "4.Um relatório com as solicitação do suporte cujo atendimento demorou mais de dois dias;\n" +
-                "5.Qual a média de dias para se efetuar um atendimento"+"\n"+this.separador()));
+                "5.Qual a média de dias para se efetuar um atendimento"+"\n"+separador()));
     }
 
     public void menu(int op){
-        if (op>5){
-            this.menu(this.apresentarMenu());
-        }else {
             switch (op){
-                case 1: JOptionPane.showMessageDialog(null,this.dadosUsuario()+"\n"+ this.separador());
+                case 1: JOptionPane.showMessageDialog(null,this.dadosUsuario());
                     break;
-                case 2: JOptionPane.showMessageDialog(null,this.usuario()+"\n"+this.separador());
+                case 2: JOptionPane.showMessageDialog(null,this.usuario());
                     break;
-                case 3: JOptionPane.showMessageDialog(null,this.relatorioDemoraAtendimento()+"\n"+this.separador());
+                case 3: JOptionPane.showMessageDialog(null,this.relatorioDemoraAtendimento());
                     break;
-                case 4: JOptionPane.showMessageDialog(null,this.relatorioTempoAtendimento()+"\n"+this.separador());
+                case 4: JOptionPane.showMessageDialog(null,this.relatorioTempoAtendimento());
                     break;
                 case 5:JOptionPane.showMessageDialog(null, "A média de dias para atendimento foi de: \n" +
-                        this.mediaDiaAtendimento());
-                    this.menu(this.apresentarMenu());
+                        this.mediaDiaAtendimento()+this.separador());
+//                    this.menu(this.apresentarMenu());
             }
-        }
-
-
 
     }
 }
