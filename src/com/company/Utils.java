@@ -33,7 +33,7 @@ public class Utils {
     }
 
     public int tamanhoUuarios(){
-        return this.usuarios.size();
+        return usuarios.size();
     }
     public int tamanhoAtendimentos(){
         int atendimentos=0;
@@ -64,14 +64,8 @@ public class Utils {
     public String getTelefone(){
         return JOptionPane.showInputDialog("Informe o telefone[xx-xxxxx-xxxx]");
     }
-    public int opcaoMenu(){
-        return Integer.parseInt(JOptionPane.showInputDialog(this.separador() +"\n"+
-                "1.Um relatório de todos os usuários contendo todos os seus dados mais a quantidade de solicitações;\n" +
-                "2.Um relatório de todos os usuários com seus respectivos atendimentos;\n" +
-                "3.Um relatório com as solicitação do suporte e quantos dias demorou para efetuar o atendimento;\n" +
-                "4.Um relatório com as solicitação do suporte cujo atendimento demorou mais de dois dias;\n" +
-                "5.Qual a média de dias para se efetuar um atendimento"+"\n"+this.separador()));
-    }
+
+
 
 
     public Date converterData(String d){
@@ -272,7 +266,7 @@ public class Utils {
     }
     public int maiorEmail(){
         int email=15;
-        for (Usuario usuario : this.usuarios) {
+        for (Usuario usuario : usuarios) {
             if (usuario.getEmail().length() > email) {
                 email = usuario.getEmail().length();
             }
@@ -287,14 +281,30 @@ public class Utils {
         }
      return sep.toString();
     }
+    //menu
 
-    public void menu(int op){
+    public int apresentarMenu(){
         if (this.tamanhoUuarios()<1){
             JOptionPane.showMessageDialog(null,"Não há informações a serem apresentadas. Tente novamente!!\n" +
                     "(ESTE PROGRAMA GERA DADOS AUTOMATICAMENTE)");
+            return 6;
         }else
+            return this.opcaoMenu();
 
-        do {
+    }
+    public int opcaoMenu(){
+        return Integer.parseInt(JOptionPane.showInputDialog(this.separador() +"\n"+
+                "1.Um relatório de todos os usuários contendo todos os seus dados mais a quantidade de solicitações;\n" +
+                "2.Um relatório de todos os usuários com seus respectivos atendimentos;\n" +
+                "3.Um relatório com as solicitação do suporte e quantos dias demorou para efetuar o atendimento;\n" +
+                "4.Um relatório com as solicitação do suporte cujo atendimento demorou mais de dois dias;\n" +
+                "5.Qual a média de dias para se efetuar um atendimento"+"\n"+this.separador()));
+    }
+
+    public void menu(int op){
+        if (op>5){
+            this.menu(this.apresentarMenu());
+        }else {
             switch (op){
                 case 1: JOptionPane.showMessageDialog(null,this.dadosUsuario()+"\n"+ this.separador());
                     break;
@@ -306,8 +316,10 @@ public class Utils {
                     break;
                 case 5:JOptionPane.showMessageDialog(null, "A média de dias para atendimento foi de: \n" +
                         this.mediaDiaAtendimento());
+                    this.menu(this.apresentarMenu());
             }
-        }while (op>5);
+        }
+
 
 
     }

@@ -37,12 +37,13 @@ public class Main {
                 atendimento = new Atendimento(date,st,solicitacao);
                 usuario.adicinorAtendimentos(atendimento);
 
-                descSolicitacao=utils.limiteLista(1);
+                descSolicitacao=utils.limiteLista(2);
             }
             utils.addUsuarios(nome,date,email,fone,usuario.getAtendimentos());
-            nome=utils.random(aleatorio.nomes());
+            nome=utils.limiteLista(3);
         }
-        utils.menu(utils.opcaoMenu());
+        utils.menu(utils.apresentarMenu());
+        System.out.println(utils.maiorEmail());
 
     }
 }
